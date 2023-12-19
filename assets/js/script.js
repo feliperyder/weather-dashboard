@@ -59,9 +59,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Todays weather
     const currentWeather = data.list[0];
     const todayHtml = `
-            <h2>${data.city.name} (${dayjs(currentWeather.dt_txt).format("D MMMM, YYYY")}<img src="https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png" alt="Weather Icon"></h2>
-            <p>Temperature: ${currentWeather.main.temp} K</p>
-            <p>Wind Speed: ${currentWeather.wind.speed} m/s</p>
+            <h2>${data.city.name} (${dayjs(currentWeather.dt_txt).format("D MMMM, YYYY")})<img src="https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}.png" alt="Weather Icon"></h2>
+            <p>Temperature: ${currentWeather.main.temp}°C</p>
+            <p>Wind Speed: ${currentWeather.wind.speed} KPH</p>
             <p>Humidity: ${currentWeather.main.humidity}%</p>
           `;
     todaySection.innerHTML = todayHtml;
@@ -72,8 +72,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const forecastHtml = `
               <div class="col-md-2">
                 <h4>${dayjs(forecastWeather.dt_txt).format("D MMM YYYY")}</h4>
-                <p>Temperature: ${forecastWeather.main.temp} K</p>
-                <p>Wind Speed: ${forecastWeather.wind.speed} m/s</p>
+                <p>Temp: ${forecastWeather.main.temp}°C</p>
+                <p>Wind: ${forecastWeather.wind.speed} KPH</p>
                 <p>Humidity: ${forecastWeather.main.humidity}%</p>
                 <img src="https://openweathermap.org/img/wn/${forecastWeather.weather[0].icon}.png" alt="Weather Icon">
               </div>
