@@ -68,7 +68,8 @@ body, h1, h2, h3, p, button {
   /* Today and Forecast sections styles */
   #today,
   #forecast {
-    background-color: #fff;
+    background-color: #007bff;
+    color: #fff;
     padding: 15px;
     margin-top: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -99,7 +100,6 @@ body, h1, h2, h3, p, button {
       background-color: #cc0000; /* Darker red on hover */
     }
   }
-
   
   /* Responsive styles for small screens */
   @media (max-width: 767px) {
