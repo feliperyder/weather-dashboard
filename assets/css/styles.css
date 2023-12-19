@@ -22,7 +22,8 @@ body, h1, h2, h3, p, button {
     color: #fff;
     text-align: center;
   }
-  
+
+
   /* Container styles */
   .container-fluid {
     padding: 15px;
@@ -39,6 +40,10 @@ body, h1, h2, h3, p, button {
   .form {
     margin-bottom: 15px;
   }
+
+  .five-day {
+    margin: 15px;
+  }
   
   .form-input {
     margin: 10px;
@@ -47,8 +52,9 @@ body, h1, h2, h3, p, button {
   }
   
   .search-button {
-    background-color: #781ff4;
+    background-color: #000000;
     color: #fff;
+    margin-top: 25px;
     padding: 10px;
     font-size: 16px;
     cursor: pointer;
@@ -66,9 +72,16 @@ body, h1, h2, h3, p, button {
   }
   
   /* Today and Forecast sections styles */
-  #today,
-  #forecast {
+  #today {
     background-color: #007bff;
+    color: #fff;
+    padding: 15px;
+    margin-top: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+  #forecast {
+    background-color: #781ff4;
     color: #fff;
     padding: 15px;
     margin-top: 15px;
@@ -89,11 +102,12 @@ body, h1, h2, h3, p, button {
 .btn-clear-history {
     background-color: #c73232; /* Red background color */
     color: #fff; /* White text color */
-    padding: 4px 8px; /* Adjust padding as needed */
+    padding: 4px 8px; 
+    margin: 5px;
     border: none;
     border-radius: 4px; /* Rounded corners */
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Smooth background color transition */
+    transition: background-color 0.3s ease; 
   
     /* Hover effect */
     &:hover {
@@ -104,7 +118,6 @@ body, h1, h2, h3, p, button {
   /* Responsive styles for small screens */
   @media (max-width: 767px) {
     .col-lg-3 {
-      order: 2;
       margin-top: 15px;
     }
   
@@ -114,6 +127,7 @@ body, h1, h2, h3, p, button {
   
     .form-input {
       width: calc(100% - 20px);
+      order: 0;
     }
   }
   
