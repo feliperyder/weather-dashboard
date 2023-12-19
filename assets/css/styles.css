@@ -61,6 +61,8 @@ body, h1, h2, h3, p, button {
   
   .history-item {
     margin-bottom: 5px;
+    padding: 10px;
+    margin: 10px;
   }
   
   /* Today and Forecast sections styles */
@@ -80,6 +82,24 @@ body, h1, h2, h3, p, button {
     border: 1px solid #ddd;
     border-radius: 5px;
   }
+  
+
+/* Styling for the Clear History button */
+.btn-clear-history {
+    background-color: #c73232; /* Red background color */
+    color: #fff; /* White text color */
+    padding: 4px 8px; /* Adjust padding as needed */
+    border: none;
+    border-radius: 4px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth background color transition */
+  
+    /* Hover effect */
+    &:hover {
+      background-color: #cc0000; /* Darker red on hover */
+    }
+  }
+
   
   /* Responsive styles for small screens */
   @media (max-width: 767px) {

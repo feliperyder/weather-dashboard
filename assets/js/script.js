@@ -8,6 +8,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const historyList = document.getElementById("history");
   const todaySection = document.getElementById("today");
   const forecastSection = document.getElementById("forecast");
+  const clearHistoryButton = document.getElementById("clear-history");
+
+  // Load search history from localStorage
+  loadSearchHistory();
 
   // Event listener for form submission
   searchForm.addEventListener('submit', function (event) {
@@ -25,6 +29,11 @@ document.addEventListener("DOMContentLoaded", function () {
       const cityName = event.target.getAttribute("data-city");
       getWeatherData(cityName);
     }
+  });
+
+  // Event listener for clear history button
+  clearHistoryButton.addEventListener("click", function () {
+    clearSearchHistory();
   });
 
   // Function to perform a fetch from OpenWeather
@@ -75,10 +84,69 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to add city to search history
   function addToHistory(cityName) {
-    const historyItem = document.createElement("button");
-    historyItem.classList.add("list-group-item", "list-group-item-action", "history-item");
-    historyItem.setAttribute("data-city", cityName);
-    historyItem.textContent = cityName;
-    historyList.appendChild(historyItem);
+    // Load search history from localStorage
+    const historyArray = JSON.parse(localStorage.getItem('weatherHistory')) || [];
+
+    // Check for duplicates
+    if (!historyArray.includes(cityName)) {
+      // Add city to history array
+      historyArray.push(cityName);
+      localStorage.setItem('weatherHistory', JSON.stringify(historyArray));
+
+      // Render the updated history
+      loadSearchHistory();
+    }
   }
-});
+
+  // Function to load search history from localStorage
+  function loadSearchHistory() {
+    // Load search history from localStorage
+    const historyArray = JSON.parse(localStorage.getItem('weatherHistory')) || [];
+
+    // Clear the existing history list
+    historyList.innerHTML = "";
+
+    // Render each city in the history
+    historyArray.forEach((cityName) => {
+      const historyItem = document.createElement("button");
+      historyItem.classList.add("list-group-item", "list-group-item-action", "history-item");
+      historyItem.setAttribute("data-city", cityName);
+      historyItem.textContent = cityName;
+      historyList.appendChild(historyItem);
+    });
+  }
+
+    // Function to load search history from localStorage
+    function loadSearchHistory() {
+      // Load search history from localStorage
+      const historyArray = JSON.parse(localStorage.getItem('weatherHistory')) || [];
+  
+      // Clear the existing history list
+      historyList.innerHTML = "";
+  
+      // Render each city in the history
+      historyArray.forEach((cityName) => {
+        const historyItem = document.createElement("button");
+        historyItem.classList.add("list-group-item", "list-group-item-action", "history-item");
+        historyItem.setAttribute("data-city", cityName);
+        historyItem.textContent = cityName;
+        historyList.appendChild(historyItem);
+      });
+  
+      // Toggle the visibility of the "Clear History" button based on the historyArray length
+      clearHistoryButton.style.display = historyArray.length ? "block" : "none";
+    }
+  
+    // Function to clear search history
+    function clearSearchHistory() {
+      // Clear search history from localStorage
+      localStorage.removeItem('weatherHistory');
+  
+      // Clear the existing history list
+      historyList.innerHTML = "";
+  
+      // Hide the "Clear History" button
+      clearHistoryButton.style.display = "none";
+    }
+  }
+);
