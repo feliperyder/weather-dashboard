@@ -1,77 +1,84 @@
-// Variables for HTML Elements
-const searchForm = document.getElementById('search-form');
-const searchInput = document.getElementById('search-input');
-const historyList = document.getElementById('history');
-const todaySection = document.getElementById('today');
-const forecastSection = document.getElementById('forecast');
+document.addEventListener("DOMContentLoaded", function () {
+  const apiKey = "2927b4743fce841c29656af226a1a8c9"; // API key
+  const queryURL = "https://api.openweathermap.org/data/2.5/forecast.json?";
 
+  // DOM elements
+  const searchForm = document.getElementById("search-form");
+  const searchInput = document.getElementById("search-input");
+  const historyList = document.getElementById("history");
+  const todaySection = document.getElementById("today");
+  const forecastSection = document.getElementById("forecast");
 
- // queryURL is the url we'll use to query the API
- var queryURL = "https://api.openweathermap.org/data/2.5/forecast.json?";
-
- // Begin building an object to contain our API call's query parameters
- // Set the API key
- var queryParams = { "api-key": "2927b4743fce841c29656af226a1a8c9" };
-
-// API Key
-api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={2927b4743fce841c29656af226a1a8c9}
-
-// Event Listeners
-searchForm.addEventListener('submit', function (event) {
+  // Event listener for form submission
+  searchForm.addEventListener('submit', function (event) {
     event.preventDefault();
-    // Get city name from form
-    const cityName = searchInput.value;
-    // Validate
-    if (cityName.trim() !== '') {
-    // Call function
-    fetchWeatherData(cityName);
-    // Clear form
-    earchInput.value = '';
-}
-});
-
-// Function to perform a fetch from OpenWeather
-    // Make request
-    // Parse the JSON
-    // Update UI
-
-// Function to Update the UI with the weather information
-    // Update the "today" section with; city name, date, weather icon, temperature, wind speed & humidity.
-    function updateCurrentWeather(data) {
-}
-    // update the "forecast" section with 5-day forecast with; date, weather icon, temperature, wind speed & humidity.
-    function updateForecast(data) {
+    const cityName = searchInput.value.trim();
+    if (cityName !== '') {
+      getWeatherData(cityName);
+      searchInput.value = '';
     }
+  });
 
-// Function to handle city click from the search history
-    function handleCityClick(cityName) {
+  // Event listener for history item clicks
+  historyList.addEventListener("click", function (event) {
+    if (event.target.matches("button.history-item")) {
+      const cityName = event.target.getAttribute("data-city");
+      getWeatherData(cityName);
     }
-    // Call the fetchWeatherData function with the selected city name
+  });
 
+  // Function to perform a fetch from OpenWeather
+  function getWeatherData(cityName) {
+    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}`;
 
-// Function to handle city click from search history
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        displayWeatherData(data);
+        addToHistory(cityName);
+      })
+      .catch((error) => {
+        console.error("Error fetching weather data:", error);
+      });
+  }
 
-// Event listener? (OR GROUP AT TOP)
+  // Function to display weather data
+  function displayWeatherData(data) {
+    todaySection.innerHTML = ""; // Clear content
+    forecastSection.innerHTML = ""; // Clear content
 
-// Function to save search cities to localStorage
-function saveToLocalStorage(cityName) {
-}
-    // Check if localStorage already has search history
-        // If it does, render from localStorage 
-        // If it doesn't make API call & save to localStorage & call createSearchButton function.
-        
-// function to createSearchButton
-function addToHistory(cityName) {
+    // Todays weather
+    const currentWeather = data.list[0];
+    const todayHtml = `
+            <h2>${data.city.name}</h2>
+            <p>Date: ${dayjs(currentWeather.dt_txt).format("D MMMM, YYYY")}</p>
+            <p>Temperature: ${currentWeather.main.temp} K</p>
+            <p>Wind Speed: ${currentWeather.wind.speed} m/s</p>
+            <p>Humidity: ${currentWeather.main.humidity}%</p>
+          `;
+    todaySection.innerHTML = todayHtml;
+
+    // 5 day forecast
+    for (let i = 1; i < data.list.length; i += 8) {
+      const forecastWeather = data.list[i];
+      const forecastHtml = `
+              <div class="col-md-2">
+                <h4>${dayjs(forecastWeather.dt_txt).format("D MMM YYYY")}</h4>
+                <p>Temperature: ${forecastWeather.main.temp} K</p>
+                <p>Wind Speed: ${forecastWeather.wind.speed} m/s</p>
+                <p>Humidity: ${forecastWeather.main.humidity}%</p>
+              </div>
+            `;
+      forecastSection.innerHTML += forecastHtml;
+    }
+  }
+
+  // Function to add city to search history
+  function addToHistory(cityName) {
     const historyItem = document.createElement("button");
     historyItem.classList.add("list-group-item", "list-group-item-action", "history-item");
     historyItem.setAttribute("data-city", cityName);
     historyItem.textContent = cityName;
     historyList.appendChild(historyItem);
-}
-// Function to load search history from localStorage
-function loadSearchHistory()
-    // Check if localStorage already has search history
-        // If it does, render from localStorage
-        // If it doesn't make API call & save to localStorage.
-
-// Call loadSearchHistory
+  }
+});
